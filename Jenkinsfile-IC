@@ -5,14 +5,13 @@ node {
     }
 
     stage('build/test') {
-        sh './gradlew clean build'
+        println "build"
     }
 
     stage('deploiement staging') {
 
         println "Deploiement"
 
-        tag("acceptation")
     }
 
 }
