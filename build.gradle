@@ -1,0 +1,16 @@
+group 'com.simon.docker'
+version '1.0-SNAPSHOT'
+
+apply plugin: 'war'
+
+war {
+    archiveName="docker-cicd.war"
+}
+
+repositories {
+    mavenCentral()
+}
+
+dependencies {
+    testCompile group: 'junit', name: 'junit', version: '4.11'
+}

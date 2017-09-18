@@ -1,0 +1,36 @@
+node {
+
+    stage('checkout') {
+        println "checkout"
+    }
+
+    stage('build/test') {
+        sh './gradlew clean build'
+    }
+
+    stage('deploiement staging') {
+
+        println "Deploiement"
+
+        tag("acceptation")
+    }
+
+}
+
+def tag (String pallier) {
+
+    def props = readProperties file: 'version.properties'
+    def version = props["version"]
+
+    println "Version jenkinsfile: ${version}"
+
+    def buildNumber = env.BUILD_NUMBER
+    def tagName = "${pallier}-${version}-${buildNumber}"
+    def commandeTag = "git tag -a ${tagName} -m 'Ajout tag ${pallier}'"
+    def commandePush = "git push origin ${tagName}"
+
+    sshagent(['bitbucket']) {
+        sh commandeTag
+        sh commandePush
+    }
+}
